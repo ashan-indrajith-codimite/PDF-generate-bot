@@ -3,130 +3,663 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Web Page</title>
+    <title>Luxury Grand Hotel - Premium Accommodation</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: 'Georgia', serif;
             line-height: 1.6;
             color: #333;
+            overflow-x: hidden;
         }
-        
+
+        /* Header & Navigation */
         header {
-            background-color: #4CAF50;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
-            text-align: center;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
-        
-        .container {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
-        
-        .button {
-            background-color: #008CBA;
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
             color: white;
-            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 4px;
-            display: inline-block;
-            margin: 10px 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
+            transition: color 0.3s;
+            font-weight: 500;
         }
-        
-        .button:hover {
-            background-color: #007B9A;
+
+        .nav-links a:hover {
+            color: #f39c12;
         }
-        
-        footer {
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%234a90e2" width="1200" height="600"/><rect fill="%23f39c12" x="0" y="500" width="1200" height="100"/><circle fill="%23e67e22" cx="200" cy="150" r="50"/><circle fill="%23e74c3c" cx="1000" cy="100" r="80"/><rect fill="%232ecc71" x="400" y="200" width="400" height="200" rx="20"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            color: #666;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #f39c12;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background: #e67e22;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: #f39c12;
+        }
+
+        /* About Section */
+        .about {
+            background: #f8f9fa;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            height: 400px;
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* Rooms Section */
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .room-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .room-image {
+            height: 250px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .room-content {
+            padding: 2rem;
+        }
+
+        .room-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .room-price {
+            font-size: 2rem;
+            color: #f39c12;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .room-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .room-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .room-features li:before {
+            content: '✓ ';
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        /* Services Section */
+        .services {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: #f39c12;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: #ecf0f1;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #f39c12;
+        }
+
+        .contact-info {
+            padding: 2rem 0;
+        }
+
+        .contact-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-item h3 {
+            color: #f39c12;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #f39c12;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            animation: fadeInUp 0.8s ease-out;
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
-        <h1>Welcome to My Simple Web Page</h1>
-        <p>A clean and modern HTML template</p>
+        <nav>
+            <div class="logo">Luxury Grand Hotel</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#rooms">Rooms</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main>
-        <div class="container">
-            <h2>About This Page</h2>
-            <p>This is a simple HTML web page with clean styling and responsive design. It includes:</p>
-            <ul>
-                <li>Responsive layout that works on all devices</li>
-                <li>Clean and modern design</li>
-                <li>Easy to customize CSS</li>
-                <li>Semantic HTML structure</li>
-            </ul>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Luxury Grand Hotel</h1>
+            <p>Experience unparalleled comfort and elegance in the heart of the city</p>
+            <a href="#rooms" class="cta-button">Book Your Stay</a>
         </div>
+    </section>
 
+    <!-- About Section -->
+    <section id="about" class="about">
         <div class="container">
-            <h2>Features</h2>
-            <p>You can customize this page by:</p>
-            <ul>
-                <li>Changing the colors in the CSS</li>
-                <li>Adding your own content</li>
-                <li>Including JavaScript functionality</li>
-                <li>Adding more sections and components</li>
-            </ul>
-            
-            <button class="button" onclick="showAlert()">Click Me!</button>
-            <button class="button" onclick="changeColor()">Change Theme</button>
+            <h2 class="section-title">About Our Hotel</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Luxury Grand Hotel has been providing exceptional hospitality for over 50 years. Located in the heart of the city, our hotel combines classic elegance with modern amenities to create an unforgettable experience for our guests.</p>
+                    
+                    <p>Our commitment to excellence is reflected in every detail, from our beautifully appointed rooms to our world-class dining and spa facilities. Whether you're traveling for business or pleasure, our dedicated staff is here to ensure your stay exceeds your expectations.</p>
+                    
+                    <p>With 200 luxurious rooms and suites, state-of-the-art conference facilities, and a prime location near the city's top attractions, Luxury Grand Hotel is your perfect home away from home.</p>
+                </div>
+                <div class="about-image">
+                    Hotel Exterior View
+                </div>
+            </div>
         </div>
+    </section>
 
+    <!-- Rooms Section -->
+    <section id="rooms" class="rooms">
         <div class="container">
-            <h2>Contact Information</h2>
-            <p>Feel free to customize this section with your own contact details:</p>
-            <ul>
-                <li><strong>Email:</strong> your-email@example.com</li>
-                <li><strong>Phone:</strong> (555) 123-4567</li>
-                <li><strong>Website:</strong> www.yourwebsite.com</li>
-            </ul>
-        </div>
-    </main>
+            <h2 class="section-title">Our Rooms & Suites</h2>
+            <div class="rooms-grid">
+                <div class="room-card">
+                    <div class="room-image">Deluxe Room</div>
+                    <div class="room-content">
+                        <h3 class="room-title">Deluxe Room</h3>
+                        <div class="room-price">$199/night</div>
+                        <ul class="room-features">
+                            <li>King-size bed</li>
+                            <li>City view</li>
+                            <li>Free Wi-Fi</li>
+                            <li>Mini bar</li>
+                            <li>24/7 room service</li>
+                        </ul>
+                        <a href="#" class="cta-button">Book Now</a>
+                    </div>
+                </div>
 
+                <div class="room-card">
+                    <div class="room-image">Executive Suite</div>
+                    <div class="room-content">
+                        <h3 class="room-title">Executive Suite</h3>
+                        <div class="room-price">$349/night</div>
+                        <ul class="room-features">
+                            <li>Separate living area</li>
+                            <li>Ocean view</li>
+                            <li>Premium amenities</li>
+                            <li>Business center access</li>
+                            <li>Complimentary breakfast</li>
+                        </ul>
+                        <a href="#" class="cta-button">Book Now</a>
+                    </div>
+                </div>
+
+                <div class="room-card">
+                    <div class="room-image">Presidential Suite</div>
+                    <div class="room-content">
+                        <h3 class="room-title">Presidential Suite</h3>
+                        <div class="room-price">$599/night</div>
+                        <ul class="room-features">
+                            <li>Two bedrooms</li>
+                            <li>Private balcony</li>
+                            <li>Butler service</li>
+                            <li>Jacuzzi</li>
+                            <li>VIP privileges</li>
+                        </ul>
+                        <a href="#" class="cta-button">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-item">
+                    <div class="service-icon">🍽️</div>
+                    <h3>Fine Dining</h3>
+                    <p>Experience exquisite cuisine at our award-winning restaurant featuring international and local specialties.</p>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-icon">🏊</div>
+                    <h3>Spa & Wellness</h3>
+                    <p>Relax and rejuvenate at our full-service spa with pool, sauna, and professional massage therapy.</p>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-icon">💼</div>
+                    <h3>Business Center</h3>
+                    <p>State-of-the-art conference rooms and business facilities for all your corporate needs.</p>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-icon">🚗</div>
+                    <h3>Concierge</h3>
+                    <p>Our 24/7 concierge service assists with transportation, tours, and local recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h3>Send us a Message</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="cta-button">Send Message</button>
+                    </form>
+                </div>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>📍 Address</h3>
+                        <p>123 Luxury Boulevard<br>
+                        Downtown District<br>
+                        Metropolitan City, MC 12345</p>
+                    </div>
+
+                    <div class="contact-item">
+                        <h3>📞 Phone & Email</h3>
+                        <p>Phone: +1 (555) 123-4567<br>
+                        Email: info@luxurygrand.com<br>
+                        Reservations: reservations@luxurygrand.com</p>
+                    </div>
+
+                    <div class="contact-item">
+                        <h3>🕒 Operating Hours</h3>
+                        <p>Front Desk: 24/7<br>
+                        Restaurant: 6:00 AM - 11:00 PM<br>
+                        Spa: 8:00 AM - 10:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Simple Web Page. Built with HTML, CSS & JavaScript.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Luxury Grand Hotel</h3>
+                    <p>Your premier destination for luxury accommodation and exceptional service in the heart of the city.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p>Reservations<br>
+                    Special Offers<br>
+                    Event Planning<br>
+                    Gift Certificates</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <p>Facebook<br>
+                    Instagram<br>
+                    Twitter<br>
+                    LinkedIn</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Luxury Grand Hotel. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
     </footer>
 
     <script>
-        function showAlert() {
-            alert('Hello! Welcome to this simple web page.');
-        }
-        
-        function changeColor() {
-            const header = document.querySelector('header');
-            const currentColor = header.style.backgroundColor;
-            
-            if (currentColor === 'rgb(255, 99, 71)' || currentColor === 'tomato') {
-                header.style.backgroundColor = '#4CAF50';
-            } else {
-                header.style.backgroundColor = 'tomato';
-            }
-        }
-        
-        // Add smooth scrolling for better user experience
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
+        });
+
+        // Form submission handler
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+
+        // Add scroll animation to sections
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-on-scroll');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(44, 62, 80, 0.95)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #2c3e50, #34495e)';
+            }
         });
     </script>
 </body>

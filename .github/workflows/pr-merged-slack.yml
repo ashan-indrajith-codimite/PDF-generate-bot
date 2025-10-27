@@ -1,0 +1,17 @@
+name: Notify Slack on PR Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  slack-notify:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send PR Info to Slack
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{\"text\":\":sparkles: [ Release Note Bot ] Dev Release Note - release-${{ github.event.pull_request.head.ref }} PR #${{ github.event.pull_request.number }}\nThis release note was generated automatically.\n• Developer: ${{ github.event.pull_request.user.login }}\n• Branch: ${{ github.event.pull_request.head.ref }}\"}" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
