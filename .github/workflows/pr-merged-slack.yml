@@ -3,6 +3,13 @@ name: Notify Slack on PR Merge
 on:
   pull_request:
     types: [closed]
+    branches:
+      - main
+      - 'release-*'
+
+permissions:
+  contents: read
+  pull-requests: read
 
 jobs:
   slack-notify:
@@ -10,85 +17,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send PR Info to Slack
+      - name: Send PR Merge Notification to Slack
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            {
+              "text": "*🚀 Pull Request Merged Successfully!*\n*PR:* <${{ github.event.pull_request.html_url }}|#${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}>\n*Repository:* `${{ github.repository }}`\n*Author:* `${{ github.event.pull_request.user.login }}`\n*Branch:* `${{ github.event.pull_request.head.ref }}` → `${{ github.event.pull_request.base.ref }}`\n*Merged at:* `${{ github.event.pull_request.merged_at }}`\n\n*Description:*\n${{ github.event.pull_request.body || 'No description provided' }}"
+            }
         env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          PR_DESCRIPTION: ${{ github.event.pull_request.body }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          REPO_NAME: ${{ github.repository }}
-        run: |
-          # Prepare the PR description (escape quotes and handle empty description)
-          PR_DESC="${PR_DESCRIPTION:-"No description provided"}"
-          PR_DESC=$(echo "$PR_DESC" | sed 's/"/\\"/g' | tr '\n' ' ')
-          
-          # Create rich Slack message
-          cat << EOF > slack_message.json
-          {
-            "blocks": [
-              {
-                "type": "header",
-                "text": {
-                  "type": "plain_text",
-                  "text": "✨ Pull Request Merged! ✨"
-                }
-              },
-              {
-                "type": "section",
-                "fields": [
-                  {
-                    "type": "mrkdwn",
-                    "text": "*Repository:*\n${REPO_NAME}"
-                  },
-                  {
-                    "type": "mrkdwn",
-                    "text": "*PR Number:*\n#${PR_NUMBER}"
-                  },
-                  {
-                    "type": "mrkdwn",
-                    "text": "*Author:*\n${PR_AUTHOR}"
-                  },
-                  {
-                    "type": "mrkdwn",
-                    "text": "*Branch:*\n${PR_BRANCH}"
-                  }
-                ]
-              },
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*PR Title:*\n${PR_TITLE}"
-                }
-              },
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Description:*\n${PR_DESC}"
-                }
-              },
-              {
-                "type": "actions",
-                "elements": [
-                  {
-                    "type": "button",
-                    "text": {
-                      "type": "plain_text",
-                      "text": "View PR"
-                    },
-                    "url": "${PR_URL}",
-                    "style": "primary"
-                  }
-                ]
-              }
-            ]
-          }
-          EOF
-          
-          # Send to Slack
-          curl -X POST -H 'Content-type: application/json' \
-          --data @slack_message.json \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
