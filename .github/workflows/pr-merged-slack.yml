@@ -11,7 +11,84 @@ jobs:
 
     steps:
       - name: Send PR Info to Slack
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_DESCRIPTION: ${{ github.event.pull_request.body }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          REPO_NAME: ${{ github.repository }}
         run: |
+          # Prepare the PR description (escape quotes and handle empty description)
+          PR_DESC="${PR_DESCRIPTION:-"No description provided"}"
+          PR_DESC=$(echo "$PR_DESC" | sed 's/"/\\"/g' | tr '\n' ' ')
+          
+          # Create rich Slack message
+          cat << EOF > slack_message.json
+          {
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "✨ Pull Request Merged! ✨"
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Repository:*\n${REPO_NAME}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*PR Number:*\n#${PR_NUMBER}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Author:*\n${PR_AUTHOR}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Branch:*\n${PR_BRANCH}"
+                  }
+                ]
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*PR Title:*\n${PR_TITLE}"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Description:*\n${PR_DESC}"
+                }
+              },
+              {
+                "type": "actions",
+                "elements": [
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "View PR"
+                    },
+                    "url": "${PR_URL}",
+                    "style": "primary"
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          
+          # Send to Slack
           curl -X POST -H 'Content-type: application/json' \
-          --data "{\"text\":\":sparkles: [ Release Note Bot ] Dev Release Note - release-${{ github.event.pull_request.head.ref }} PR #${{ github.event.pull_request.number }}\nThis release note was generated automatically.\n• Developer: ${{ github.event.pull_request.user.login }}\n• Branch: ${{ github.event.pull_request.head.ref }}\"}" \
+          --data @slack_message.json \
           ${{ secrets.SLACK_WEBHOOK_URL }}
