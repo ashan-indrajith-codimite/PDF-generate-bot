@@ -9,7 +9,7 @@
 ### 1. Complete the "Add a message" field:
 Copy and paste this message:
 
-🤖 GitHub PR Bot Setup Complete! 
+🤖 GitHub PR Bot Setup Complete        ! 
 This channel will receive automated notifications when pull requests are merged in the PDF-generate-bot repository.
 
 ### 2. After adding the message:
