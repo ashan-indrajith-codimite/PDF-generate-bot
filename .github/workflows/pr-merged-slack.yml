@@ -1,6 +1,5 @@
 name: PR Opened Notification to Slack
 
-# Trigger only when a PR is opened
 on:
   pull_request:
     types: [opened]
@@ -15,13 +14,13 @@ jobs:
         with:
           payload: |
             {
-              "text": "*📢 New Pull Request Opened*",
+              "text": ":loudspeaker: *New Pull Request Opened*",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*${{ github.event.pull_request.user.login }}* opened a new PR:\n*<${{ github.event.pull_request.html_url }}|${{ github.event.pull_request.title }}>*"
+                    "text": "*${{ github.event.pull_request.user.login }}* opened a new PR:\n*<${{ github.event.pull_request.html_url }}|${{ github.event.pull_request.title }}>*" 
                   }
                 },
                 {
