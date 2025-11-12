@@ -1,28 +1,44 @@
-name: Notify Slack on PR Merge
+name: PR Opened Notification to Slack
 
+# Trigger only when a PR is opened
 on:
   pull_request:
-    types: [closed]
-    branches:
-      - main
-      - 'release-*'
-
-permissions:
-  contents: read
-  pull-requests: read
+    types: [opened]
 
 jobs:
-  slack-notify:
-    if: github.event.pull_request.merged == true
+  notify-slack:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send PR Merge Notification to Slack
+      - name: Send PR info to Slack
         uses: slackapi/slack-github-action@v1.27.0
         with:
           payload: |
             {
-              "text": "*🚀 Pull Request Merged Successfully!*\n*PR:* <${{ github.event.pull_request.html_url }}|#${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}>\n*Repository:* `${{ github.repository }}`\n*Author:* `${{ github.event.pull_request.user.login }}`\n*Branch:* `${{ github.event.pull_request.head.ref }}` → `${{ github.event.pull_request.base.ref }}`\n*Merged at:* `${{ github.event.pull_request.merged_at }}`\n\n*Description:*\n${{ github.event.pull_request.body || 'No description provided' }}"
+              "text": "*📢 New Pull Request Opened*",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*${{ github.event.pull_request.user.login }}* opened a new PR:\n*<${{ github.event.pull_request.html_url }}|${{ github.event.pull_request.title }}>*"
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    { "type": "mrkdwn", "text": "*Repository:* ${{ github.repository }}" },
+                    { "type": "mrkdwn", "text": "*Branch:* `${{ github.event.pull_request.base.ref }}` ← `${{ github.event.pull_request.head.ref }}`" }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "📝 *Description:*\n${{ github.event.pull_request.body || 'No description provided' }}"
+                  }
+                }
+              ]
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
