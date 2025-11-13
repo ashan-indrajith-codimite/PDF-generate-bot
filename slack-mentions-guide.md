@@ -30,7 +30,20 @@ curl -X GET "https://slack.com/api/users.list" \
 
 ```
 SLACK_WEBHOOK_URL = https://hooks.slack.com/services/...
-SLACK_REVIEWERS = <@U01234567AB> <@U09876543CD> <@U12345678EF>
+SLACK_REVIEWERS = <@U099ETRC2K> <@U01234567AB> <@U09876543CD>
+```
+
+### ⚠️ IMPORTANT: Correct Format for Slack Mentions
+Your GitHub secret should contain the **exact format**:
+```
+<@U099ETRC2K>
+```
+NOT just: `U099ETRC2K`
+
+### ✅ Example with Your User ID:
+```
+Name: SLACK_REVIEWERS
+Value: <@U099ETRC2K> <@U01234567AB>
 ```
 
 ### Alternative: Individual User Secrets (if needed)
@@ -42,11 +55,24 @@ SLACK_USER_ID_USER3 = U12345678EF
 
 ## Testing User Mentions:
 
-### Simple Test Message:
+### 🧪 Test Your User ID Format:
 ```json
 {
-  "text": "Test mention: <@U01234567AB> please check this"
+  "text": "Test mention: <@U099ETRC2K> please check this"
 }
+```
+
+### ✅ Correct Format Examples:
+```
+Single user: <@U099ETRC2K>
+Multiple users: <@U099ETRC2K> <@U01234567AB> <@U09876543CD>
+```
+
+### ❌ Incorrect Formats (Won't Work):
+```
+Without brackets: @U099ETRC2K
+Without @: <U099ETRC2K>
+Just ID: U099ETRC2K
 ```
 
 ### Advanced Block Message:
