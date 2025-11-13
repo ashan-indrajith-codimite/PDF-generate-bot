@@ -2,7 +2,7 @@ name: PR Opened Notification to Slack
 
 on:
   pull_request:
-    types: [opened,updated]
+    types: [opened]
 
 jobs:
   notify-slack:
@@ -14,7 +14,7 @@ jobs:
           curl -X POST -H 'Content-type: application/json' \
           --data "{
             \"text\": \"*PR:* ${PR_TITLE}\n*URL:* ${PR_URL}\n*Branch:* \`${PR_BASE}\` ← \`${PR_HEAD}\`\n*Reviews:* ${SLACK_REVIEWERS}\"
-          }" $SLACK_WEBHOOK_URL
+          }" "$SLACK_WEBHOOK_URL"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_REVIEWERS: ${{ secrets.SLACK_REVIEWERS }}
