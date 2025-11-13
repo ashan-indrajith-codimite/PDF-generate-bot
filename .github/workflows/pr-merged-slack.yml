@@ -13,37 +13,12 @@ jobs:
         run: |
           curl -X POST -H 'Content-type: application/json' \
           --data "{
-            \"text\": \":loudspeaker: New Pull Request Opened\",
-            \"blocks\": [
-              {
-                \"type\": \"section\",
-                \"text\": {
-                  \"type\": \"mrkdwn\",
-                  \"text\": \"*${GITHUB_ACTOR}* opened a new PR:\n*<${PR_URL}|${PR_TITLE}>*\" 
-                }
-              },
-              {
-                \"type\": \"context\",
-                \"elements\": [
-                  { \"type\": \"mrkdwn\", \"text\": \"*Repository:* ${GITHUB_REPOSITORY}\" },
-                  { \"type\": \"mrkdwn\", \"text\": \"*Branch:* \`${PR_BASE}\` ← \`${PR_HEAD}\`\" }
-                ]
-              },
-              {
-                \"type\": \"section\",
-                \"text\": {
-                  \"type\": \"mrkdwn\",
-                  \"text\": \"📝 *Description:*\n${PR_BODY}\"
-                }
-              }
-            ]
+            \"text\": \"*PR:* ${PR_TITLE}\n*Branch:* \`${PR_BASE}\` ← \`${PR_HEAD}\`\"
           }" $SLACK_WEBHOOK_URL
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_URL: ${{ github.event.pull_request.html_url }}
-          PR_BODY: ${{ github.event.pull_request.body || 'No description provided' }}
           PR_BASE: ${{ github.event.pull_request.base.ref }}
           PR_HEAD: ${{ github.event.pull_request.head.ref }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_ACTOR: ${{ github.actor }}
