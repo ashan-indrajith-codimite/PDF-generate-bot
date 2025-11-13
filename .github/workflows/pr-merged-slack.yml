@@ -13,7 +13,7 @@ jobs:
         run: |
           curl -X POST -H 'Content-type: application/json' \
           --data "{
-            \"text\": \"*PR:* ${PR_TITLE}\n*URL:* \`${PR_URL}\` \`${PR_BASE}\` ← \`${PR_HEAD}\`\"
+            \"text\": \"*PR:* ${PR_TITLE}\n*URL:* ${PR_URL}\n*Branch:* \`${PR_BASE}\` ← \`${PR_HEAD}\`\n*Review Required:* <@ashan.indrajith@codimite.com> please review this PR\"
           }" $SLACK_WEBHOOK_URL
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
