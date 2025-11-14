@@ -13,7 +13,7 @@ jobs:
         run: |
           curl -X POST -H 'Content-type: application/json' \
           --data "{
-            \"text\": \"*New PR for Review* <!channel> \n*PR:* ${PR_TITLE}\n*URL:* ${PR_URL}\n*Branch:* \`${PR_BASE}\` ← \`${PR_HEAD}\`\n*Author:* ${GITHUB_ACTOR}\"
+            \"text\": \"* 📝 New PR for Review * <!channel> \n*PR:* ${PR_TITLE}\n*URL:* ${PR_URL}\n*Branch:* \`${PR_BASE}\` ← \`${PR_HEAD}\`\n*Author:* ${GITHUB_ACTOR}\"
           }" "$SLACK_WEBHOOK_URL"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
