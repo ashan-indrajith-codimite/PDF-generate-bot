@@ -2,7 +2,7 @@ name: PR Opened Notification to Slack
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened,updated]
 
 jobs:
   notify-slack:
@@ -10,34 +10,15 @@ jobs:
 
     steps:
       - name: Send PR info to Slack
-        uses: slackapi/slack-github-action@v1.27.0
-        with:
-          payload: |
-            {
-              "text": ":loudspeaker: *New Pull Request Opened*",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*${{ github.event.pull_request.user.login }}* opened a new PR:\n*<${{ github.event.pull_request.html_url }}|${{ github.event.pull_request.title }}>*" 
-                  }
-                },
-                {
-                  "type": "context",
-                  "elements": [
-                    { "type": "mrkdwn", "text": "*Repository:* ${{ github.repository }}" },
-                    { "type": "mrkdwn", "text": "*Branch:* `${{ github.event.pull_request.base.ref }}` ← `${{ github.event.pull_request.head.ref }}`" }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "📝 *Description:*\n${{ github.event.pull_request.body || 'No description provided' }}"
-                  }
-                }
-              ]
-            }
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{
+            \"text\": \"*✨ New PR for Review* <!channel> \n*PR:* ${PR_TITLE}\n*URL:* ${PR_URL}\n*Branch:* \`${PR_BASE}\` ← \`${PR_HEAD}\`\n*Author:* ${GITHUB_ACTOR}\"
+          }" "$SLACK_WEBHOOK_URL"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_BASE: ${{ github.event.pull_request.base.ref }}
+          PR_HEAD: ${{ github.event.pull_request.head.ref }}
+          GITHUB_ACTOR: ${{ github.actor }}
